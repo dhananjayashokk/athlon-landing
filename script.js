@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSportsShowcase();
     initializeStatCounters();
     createAdvancedParticleSystem();
+    initializeMobileFeatures();
     
     // Mark page as loaded
     document.body.classList.add('loaded');
@@ -1256,6 +1257,128 @@ document.addEventListener('DOMContentLoaded', function() {
         createAdvancedParticleSystem();
     }, 1000);
 });
+
+// Mobile Features and Touch Support
+function initializeMobileFeatures() {
+    // Mobile Navigation Toggle
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (mobileToggle && navLinks) {
+        // Clone nav links for mobile menu
+        const mobileMenu = navLinks.cloneNode(true);
+        mobileMenu.classList.add('mobile-menu');
+        document.body.appendChild(mobileMenu);
+        
+        mobileToggle.addEventListener('click', function() {
+            mobileToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+        
+        // Close menu when clicking on links
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+    }
+    
+    // Touch-friendly interactions for cards
+    const cards = document.querySelectorAll('.sport-card-3d, .rate-card, .facility-item');
+    cards.forEach(card => {
+        let touchTimer = null;
+        
+        card.addEventListener('touchstart', function() {
+            touchTimer = setTimeout(() => {
+                card.classList.add('touch-active');
+            }, 200);
+        });
+        
+        card.addEventListener('touchend', function() {
+            clearTimeout(touchTimer);
+            setTimeout(() => {
+                card.classList.remove('touch-active');
+            }, 300);
+        });
+        
+        card.addEventListener('touchcancel', function() {
+            clearTimeout(touchTimer);
+            card.classList.remove('touch-active');
+        });
+    });
+    
+    // Enhanced scroll behavior for mobile
+    if (window.innerWidth <= 768) {
+        // Reduce motion for better performance on mobile
+        gsap.globalTimeline.timeScale(0.8);
+        
+        // Simplified animations for mobile
+        const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
+        if (mobileMediaQuery.matches) {
+            // Disable complex animations on mobile for better performance
+            gsap.set('.hero-particles, .sport-particles, .floating-equipment', {
+                display: 'none'
+            });
+        }
+    }
+    
+    // Viewport height fix for mobile browsers
+    function setViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    window.addEventListener('orientationchange', setViewportHeight);
+    
+    // Touch swipe support for carousels
+    const reviewTrack = document.querySelector('.review-track');
+    if (reviewTrack) {
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        
+        reviewTrack.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        reviewTrack.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                const currentX = e.touches[0].clientX;
+                const diffX = currentX - startX;
+                currentTranslate = prevTranslate + diffX;
+            }
+        });
+        
+        reviewTrack.addEventListener('touchend', () => {
+            const moved = currentTranslate - prevTranslate;
+            
+            if (moved < -50) {
+                // Swipe left - next review
+                document.querySelector('.next-btn')?.click();
+            } else if (moved > 50) {
+                // Swipe right - previous review
+                document.querySelector('.prev-btn')?.click();
+            }
+            
+            prevTranslate = currentTranslate;
+        });
+    }
+}
 
 // Export functions for potential external use
 window.AthlonSports = {

@@ -235,6 +235,8 @@ body {
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
+    padding: 10px;
+    z-index: 1001;
 }
 
 .mobile-menu-toggle span {
@@ -242,6 +244,82 @@ body {
     height: 3px;
     background: white;
     transition: var(--transition-fast);
+    transform-origin: center;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Navigation Menu */
+.nav-links.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: var(--primary-blue);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.nav-links.mobile-menu.active {
+    left: 0;
+}
+
+.nav-links.mobile-menu a {
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    text-align: center;
+}
+
+.nav-links.mobile-menu .nav-cta {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+}
+
+/* Mobile menu body lock */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Touch interactions */
+.touch-active {
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+}
+
+/* Viewport height fix for mobile */
+.hero {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .hero-particles,
+    .sport-particles,
+    .floating-equipment,
+    .about-bg-elements,
+    .sports-bg-effects {
+        display: none !important;
+    }
 }
 
 /* Hero Section */
@@ -850,29 +928,42 @@ body {
 .stat-item {
     text-align: center;
     color: var(--pure-white);
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 20px 18px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    min-width: 90px;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .stat-number {
     display: block;
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: var(--pure-white);
-    letter-spacing: 1px;
     font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 4px;
 }
 
 .stat-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
     text-transform: uppercase;
+    font-family: var(--font-body);
+    line-height: 1.2;
 }
 
 /* Section Headers */
@@ -2775,9 +2866,24 @@ body {
 @media (max-width: 768px) {
     :root {
         --section-padding: 60px 0;
+        --container-padding: 0 15px;
     }
     
-    .nav-links {
+    /* Universal text overflow prevention */
+    * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .container {
+        padding: 0 15px;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* Navigation */
+    .nav-links:not(.mobile-menu) {
         display: none;
     }
     
@@ -2785,82 +2891,1123 @@ body {
         display: flex;
     }
     
+    .nav-logo .logo-text h2 {
+        font-size: 20px;
+        white-space: nowrap;
+    }
+    
+    .nav-location {
+        font-size: 10px;
+    }
+    
+    /* Hero Section - Clean Mobile Layout */
+    .hero {
+        min-height: 100vh !important;
+        padding: 80px 0 60px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .hero-content {
+        max-width: 100% !important;
+        padding: 0 15px !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+    
+    .hero-text {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
     .hero-title {
-        font-size: 2.5rem;
+        font-size: clamp(1.8rem, 7vw, 2.5rem) !important;
+        margin-bottom: 20px !important;
+        text-align: center !important;
+        line-height: 1.1 !important;
+        word-break: break-word !important;
+        font-weight: 700 !important;
+    }
+    
+    .title-line {
+        display: block !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .title-line.highlight {
+        color: #FFD700 !important;
+        text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3) !important;
     }
     
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 4.5vw, 1.3rem) !important;
+        text-align: center !important;
+        margin-bottom: 30px !important;
+        padding: 0 10px !important;
+        max-width: 100% !important;
+        line-height: 1.4 !important;
+        opacity: 0.95 !important;
     }
     
     .hero-cta {
-        flex-direction: column;
-        align-items: center;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+        margin-bottom: 40px !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     
+    .btn-large {
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 16px 24px !important;
+        font-size: 16px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        border-radius: 25px !important;
+        font-weight: 600 !important;
+    }
+    
+    .btn-secondary {
+        background: transparent !important;
+        border: 2px solid white !important;
+        color: white !important;
+    }
+    
+    /* Completely redesigned stats section for mobile */
     .hero-stats {
-        flex-direction: column;
-        gap: 20px;
-        bottom: 10px;
+        position: absolute !important;
+        bottom: 50px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-evenly !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 10px 12px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        border-radius: 18px !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25) !important;
+        width: 90% !important;
+        max-width: 320px !important;
+        min-height: 60px !important;
+        z-index: 100 !important;
+        pointer-events: auto !important;
+        overflow: visible !important;
     }
     
-    .about-content,
-    .location-content {
+    .stat-item {
+        text-align: center !important;
+        min-width: 0 !important;
+        flex: 1 1 30% !important;
+        padding: 5px 2px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    .stat-number {
+        font-size: clamp(0.9rem, 3.2vw, 1.1rem) !important;
+        white-space: nowrap !important;
+        font-weight: 700 !important;
+        display: block !important;
+        margin-bottom: 2px !important;
+        color: var(--primary-blue) !important;
+        line-height: 1 !important;
+    }
+    
+    .stat-label {
+        font-size: clamp(0.55rem, 1.8vw, 0.7rem) !important;
+        word-break: break-word !important;
+        opacity: 1 !important;
+        font-weight: 500 !important;
+        line-height: 1 !important;
+        color: var(--dark-text) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
+    }
+    
+    /* Section Headers */
+    .section-title {
+        font-size: clamp(2rem, 6vw, 2.8rem);
+        text-align: center;
+        margin-bottom: 15px;
+        word-break: break-word;
+    }
+    
+    .section-subtitle {
+        font-size: clamp(1rem, 3.5vw, 1.2rem);
+        text-align: center;
+        margin-bottom: 40px;
+        line-height: 1.4;
+    }
+    
+    /* About Section - Complete Mobile Overhaul */
+    .about {
+        padding: 40px 0 !important;
+        overflow: visible !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+    
+    .about-content {
+        display: block !important;
+        grid-template-columns: none !important;
+        gap: 20px !important;
+        text-align: left !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+    
+    .about-text {
+        order: 1 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .about-visual {
+        order: 2 !important;
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
+        overflow: hidden !important;
+        margin: 20px 0 !important;
+    }
+    
+    .arena-showcase {
+        height: 100% !important;
+        transform: scale(0.8) !important;
+    }
+    
+    .text-highlight-box {
+        margin-bottom: 15px !important;
+    }
+    
+    .text-highlight-box h3 {
+        font-size: clamp(1.5rem, 5vw, 2rem) !important;
+        margin-bottom: 10px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+    }
+    
+    .about-description {
+        font-size: clamp(1rem, 4vw, 1.2rem) !important;
+        line-height: 1.6 !important;
+        margin-bottom: 25px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        text-align: center !important;
+    }
+    
+    .about-features {
+        margin-top: 20px !important;
+        width: 100% !important;
+        display: block !important;
+    }
+    
+    .feature-item {
+        display: block !important;
+        margin-bottom: 20px !important;
+        padding: 15px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        border-radius: 10px !important;
+    }
+    
+    .feature-icon-wrapper {
+        display: none !important;
+    }
+    
+    .feature-number {
+        display: none !important;
+    }
+    
+    .feature-text {
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
+    .feature-text h4 {
+        font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
+        margin-bottom: 8px !important;
+        line-height: 1.3 !important;
+        color: var(--primary-blue) !important;
+    }
+    
+    .feature-text p {
+        font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+        line-height: 1.5 !important;
+        margin-bottom: 10px !important;
+        color: var(--dark-text) !important;
+    }
+    
+    .feature-progress {
+        display: none !important;
+    }
+    
+    /* Sports Section - Premium Mobile Design */
+    .sports {
+        padding: 50px 0 !important;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8eaff 100%) !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+    
+    /* Sports Showcase - Simplified for Mobile */
+    .sports-showcase {
+        margin-bottom: 40px !important;
+        width: 100% !important;
+        background: white !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+        padding: 25px 15px !important;
+        margin: 0 10px 30px !important;
+    }
+    
+    .showcase-controls {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin-bottom: 25px !important;
+        flex-wrap: nowrap !important;
+        padding: 0 !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+    
+    .showcase-controls::-webkit-scrollbar {
+        display: none !important;
+    }
+    
+    .showcase-btn {
+        padding: 12px 18px !important;
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        min-width: 85px !important;
+        flex: 0 0 auto !important;
+        border-radius: 25px !important;
+        border: 2px solid var(--light-gray) !important;
+        background: transparent !important;
+        color: var(--medium-gray) !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .showcase-btn.active {
+        background: var(--primary-blue) !important;
+        color: white !important;
+        border-color: var(--primary-blue) !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 15px rgba(74, 91, 245, 0.3) !important;
+    }
+    
+    .showcase-content {
+        overflow: visible !important;
+        height: auto !important;
+        width: 100% !important;
+        position: relative !important;
+    }
+    
+    .showcase-panel {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 20px 0 !important;
+        animation: fadeInUp 0.5s ease !important;
+    }
+    
+    .showcase-panel:not(.active) {
+        display: none !important;
+    }
+    
+    /* Remove complex 3D visuals for cleaner mobile look */
+    .panel-visual {
+        display: none !important;
+    }
+    
+    .panel-content {
+        text-align: center !important;
+        padding: 0 !important;
+        width: 100% !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    .panel-content h3 {
+        font-size: clamp(1.6rem, 6vw, 2rem) !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        color: var(--primary-blue) !important;
+        font-weight: 700 !important;
+        position: relative !important;
+    }
+    
+    .panel-content h3::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: -8px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 50px !important;
+        height: 3px !important;
+        background: var(--primary-blue) !important;
+        border-radius: 2px !important;
+    }
+    
+    .panel-content p {
+        font-size: clamp(1rem, 4vw, 1.2rem) !important;
+        line-height: 1.7 !important;
+        text-align: center !important;
+        margin-bottom: 25px !important;
+        color: var(--dark-text) !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Enhanced Sport Stats */
+    .sport-stats {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 12px !important;
+        margin-bottom: 25px !important;
+        padding: 0 10px !important;
+    }
+    
+    .sport-stats .stat-item {
+        text-align: center !important;
+        padding: 15px 8px !important;
+        background: linear-gradient(135deg, rgba(74, 91, 245, 0.1) 0%, rgba(92, 110, 255, 0.05) 100%) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(74, 91, 245, 0.1) !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .sport-stats .stat-item:hover {
+        transform: translateY(-2px) !important;
+    }
+    
+    .sport-stats .stat-number {
+        font-size: clamp(1.3rem, 5vw, 1.6rem) !important;
+        color: var(--primary-blue) !important;
+        font-weight: 700 !important;
+        display: block !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .sport-stats .stat-label {
+        font-size: clamp(0.75rem, 2.8vw, 0.9rem) !important;
+        color: var(--medium-gray) !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    /* Premium Feature Tags */
+    .sport-features-premium {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        margin-top: 20px !important;
+        padding: 0 10px !important;
+    }
+    
+    .feature-tag {
+        font-size: clamp(0.8rem, 2.8vw, 0.9rem) !important;
+        padding: 8px 15px !important;
+        background: linear-gradient(45deg, var(--primary-blue), var(--light-blue)) !important;
+        color: white !important;
+        border-radius: 20px !important;
+        font-weight: 500 !important;
+        box-shadow: 0 3px 10px rgba(74, 91, 245, 0.3) !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .feature-tag:hover {
+        transform: translateY(-2px) !important;
+    }
+    
+    /* Simplified Sports Cards Grid */
+    .sports-grid-premium {
+        display: block !important;
+        margin: 40px 10px 0 !important;
+        max-width: none !important;
+    }
+    
+    .sport-card-3d {
+        background: white !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+        margin-bottom: 20px !important;
+        overflow: hidden !important;
+        border: 1px solid var(--light-gray) !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .sport-card-3d:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important;
+    }
+    
+    .card-front {
+        padding: 25px 20px !important;
+        text-align: center !important;
+        position: relative !important;
+    }
+    
+    .sport-icon-large {
+        font-size: 48px !important;
+        margin-bottom: 15px !important;
+        display: block !important;
+    }
+    
+    .card-front h4 {
+        font-size: clamp(1.3rem, 5vw, 1.6rem) !important;
+        color: var(--primary-blue) !important;
+        margin-bottom: 8px !important;
+        font-weight: 600 !important;
+    }
+    
+    .card-front p {
+        font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+        color: var(--medium-gray) !important;
+        margin-bottom: 15px !important;
+        line-height: 1.5 !important;
+    }
+    
+    .card-price {
+        font-size: clamp(1.2rem, 4.5vw, 1.5rem) !important;
+        color: var(--primary-blue) !important;
+        font-weight: 700 !important;
+        background: rgba(74, 91, 245, 0.1) !important;
+        padding: 8px 16px !important;
+        border-radius: 20px !important;
+        display: inline-block !important;
+    }
+    
+    .card-back {
+        display: none !important;
+    }
+    
+    /* Add fade in animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Facilities Section */
+    .facilities-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
+        max-width: 400px;
+        margin: 0 auto;
     }
     
-    .sports-grid,
-    .facilities-grid,
+    .facility-item {
+        text-align: center;
+        padding: 30px 15px;
+    }
+    
+    .facility-item h3 {
+        font-size: clamp(1.2rem, 4vw, 1.4rem);
+        margin-bottom: 15px;
+    }
+    
+    .facility-item p {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        line-height: 1.5;
+    }
+    
+    /* Rates Section */
     .rates-grid {
         grid-template-columns: 1fr;
+        gap: 30px;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    
+    .rate-card {
+        margin: 0 auto;
+        padding: 25px 20px;
+    }
+    
+    .rate-sport {
+        font-size: clamp(1.3rem, 5vw, 1.6rem);
+    }
+    
+    .rate-price {
+        font-size: clamp(1.8rem, 6vw, 2.2rem);
+    }
+    
+    .rate-price span {
+        font-size: clamp(1rem, 3vw, 1.2rem);
+    }
+    
+    .rate-time {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+    
+    .rate-features ul li {
+        font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+    }
+    
+    /* Reviews Section - Complete Mobile Overhaul */
+    .reviews {
+        padding: 40px 0 !important;
+        overflow: visible !important;
+    }
+    
+    .reviews-carousel {
+        overflow: visible !important;
+        width: 100% !important;
+    }
+    
+    .review-track {
+        display: block !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
     }
     
     .review-card {
-        min-width: 300px;
+        display: block !important;
+        min-width: auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 20px 15px !important;
+        margin-bottom: 20px !important;
+        flex-shrink: 1 !important;
+        background: white !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        border: 1px solid var(--light-gray) !important;
     }
     
+    .review-stars {
+        font-size: 18px !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        color: #FFD700 !important;
+    }
+    
+    .review-text {
+        font-size: clamp(0.9rem, 3.5vw, 1.1rem) !important;
+        line-height: 1.6 !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+        color: var(--dark-text) !important;
+        font-style: italic !important;
+    }
+    
+    .review-author {
+        text-align: center !important;
+        border-top: 1px solid var(--light-gray) !important;
+        padding-top: 15px !important;
+    }
+    
+    .author-name {
+        font-size: clamp(1rem, 3.5vw, 1.2rem) !important;
+        font-weight: 600 !important;
+        color: var(--primary-blue) !important;
+        display: block !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .author-sport {
+        font-size: clamp(0.8rem, 2.8vw, 0.95rem) !important;
+        color: var(--medium-gray) !important;
+        display: block !important;
+    }
+    
+    .carousel-controls {
+        display: none !important;
+    }
+    
+    /* Location Section - Complete Mobile Overhaul */
+    .location {
+        padding: 40px 0 !important;
+        overflow: visible !important;
+    }
+    
+    .location-content {
+        display: block !important;
+        grid-template-columns: none !important;
+        gap: 30px !important;
+        width: 100% !important;
+    }
+    
+    .location-info {
+        order: 1 !important;
+        text-align: center !important;
+        padding: 0 10px !important;
+        width: 100% !important;
+    }
+    
+    .location-map {
+        order: 2 !important;
+        height: 200px !important;
+        margin: 20px 0 !important;
+        border-radius: 15px !important;
+        overflow: hidden !important;
+        background: var(--light-gray) !important;
+    }
+    
+    .location-address {
+        margin-bottom: 30px !important;
+        padding: 20px 15px !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+    
+    .location-address h3 {
+        font-size: clamp(1.4rem, 5vw, 1.8rem) !important;
+        margin-bottom: 15px !important;
+        color: var(--primary-blue) !important;
+        font-weight: 600 !important;
+    }
+    
+    .location-address p {
+        font-size: clamp(1rem, 3.5vw, 1.2rem) !important;
+        line-height: 1.6 !important;
+        color: var(--dark-text) !important;
+    }
+    
+    .location-details {
+        margin-bottom: 30px !important;
+    }
+    
+    .detail-item {
+        display: flex !important;
+        align-items: flex-start !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+        background: rgba(255, 255, 255, 0.6) !important;
+        border-radius: 12px !important;
+        text-align: left !important;
+    }
+    
+    .detail-icon {
+        font-size: 24px !important;
+        margin-right: 15px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .detail-text {
+        flex: 1 !important;
+    }
+    
+    .detail-text h4 {
+        font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
+        margin-bottom: 8px !important;
+        color: var(--primary-blue) !important;
+        font-weight: 600 !important;
+    }
+    
+    .detail-text p {
+        font-size: clamp(0.9rem, 3vw, 1rem) !important;
+        line-height: 1.5 !important;
+        color: var(--dark-text) !important;
+    }
+    
+    .contact-info {
+        padding: 20px 15px !important;
+        background: var(--primary-blue) !important;
+        border-radius: 15px !important;
+        color: white !important;
+        text-align: center !important;
+    }
+    
+    .contact-info h4 {
+        font-size: clamp(1.3rem, 4.5vw, 1.6rem) !important;
+        margin-bottom: 15px !important;
+        font-weight: 600 !important;
+    }
+    
+    .contact-info p {
+        font-size: clamp(1rem, 3.5vw, 1.2rem) !important;
+        line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .contact-info .btn-primary {
+        background: white !important;
+        color: var(--primary-blue) !important;
+        font-weight: 600 !important;
+        padding: 12px 25px !important;
+        border-radius: 25px !important;
+    }
+    
+    /* Footer */
     .footer-content {
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
     }
     
+    .footer-brand h3 {
+        font-size: clamp(1.4rem, 5vw, 1.8rem);
+    }
+    
+    .footer-brand p {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+    
     .footer-links {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
         gap: 30px;
+    }
+    
+    .footer-section h4 {
+        font-size: clamp(1.1rem, 4vw, 1.3rem);
+    }
+    
+    .footer-section a {
+        font-size: clamp(0.9rem, 3vw, 1rem);
     }
     
     .footer-bottom {
         flex-direction: column;
         text-align: center;
+        gap: 15px;
+    }
+    
+    .footer-bottom p {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
     }
 }
 
 @media (max-width: 480px) {
+    :root {
+        --container-padding: 0 10px;
+        --section-padding: 50px 0;
+    }
+    
     .container {
-        padding: 0 15px;
+        padding: 0 10px;
+        max-width: 100%;
+    }
+    
+    /* Navigation */
+    .nav-logo .logo-text h2 {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+    
+    .nav-location {
+        font-size: 9px;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 70px 0 30px;
+    }
+    
+    .hero-content {
+        padding: 0 10px;
+    }
+    
+    .hero-title {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
+    
+    .title-line {
+        margin-bottom: 8px;
+    }
+    
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        padding: 0 5px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-cta {
+        margin-bottom: 2rem;
+        gap: 12px;
     }
     
     .hero-stats {
-        gap: 15px;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 10px;
+    }
+    
+    .stat-item {
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        max-width: 200px;
+        margin: 0 auto;
     }
     
     .stat-number {
-        font-size: 1.5rem;
+        font-size: clamp(1.3rem, 5vw, 1.6rem);
     }
     
     .stat-label {
-        font-size: 0.7rem;
-    }
-    
-    .review-card {
-        min-width: 280px;
+        font-size: clamp(0.65rem, 2.5vw, 0.8rem);
     }
     
     .btn-large {
-        padding: 14px 28px;
-        font-size: 16px;
+        padding: 14px 20px;
+        font-size: 15px;
+        max-width: 240px;
+    }
+    
+    /* Sections */
+    .section-title {
+        font-size: clamp(1.8rem, 7vw, 2.4rem);
+        margin-bottom: 12px;
+        padding: 0 5px;
+    }
+    
+    .section-subtitle {
+        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+    
+    /* About Section */
+    .about {
+        padding: 40px 0;
+    }
+    
+    .about-content {
+        gap: 30px;
+    }
+    
+    .about-text {
+        padding: 0 5px;
+    }
+    
+    .text-highlight-box h3 {
+        font-size: clamp(1.2rem, 5vw, 1.5rem);
+        margin-bottom: 12px;
+    }
+    
+    .about-description {
+        font-size: clamp(0.85rem, 3.5vw, 1rem);
+        padding: 0 5px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+    
+    .feature-item {
+        margin-bottom: 25px;
+        padding: 15px 5px;
+    }
+    
+    .feature-item h4 {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        margin-bottom: 8px;
+    }
+    
+    .feature-item p {
+        font-size: clamp(0.85rem, 3vw, 0.95rem);
+        line-height: 1.5;
+    }
+    
+    /* Sports showcase */
+    .showcase-controls {
+        gap: 6px;
+        padding: 0 5px;
+    }
+    
+    .showcase-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 70px;
+    }
+    
+    .panel-content {
+        padding: 0 10px;
+    }
+    
+    .panel-content h3 {
+        font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+    }
+    
+    .panel-content p {
+        font-size: clamp(0.85rem, 3.5vw, 1rem);
+    }
+    
+    .sport-features-premium {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .feature-tag {
+        font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+        padding: 6px 12px;
+    }
+    
+    /* Cards */
+    .sport-card-3d,
+    .facility-item,
+    .rate-card {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .sports-grid-premium,
+    .facilities-grid,
+    .rates-grid {
+        max-width: 300px;
+    }
+    
+    .card-front,
+    .card-back {
+        padding: 20px 15px;
+    }
+    
+    .card-front h4,
+    .card-back h4 {
+        font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+    }
+    
+    .card-front p,
+    .card-back ul li {
+        font-size: clamp(0.85rem, 3vw, 0.95rem);
+    }
+    
+    /* Rates specific */
+    .rate-card {
+        padding: 20px 15px;
+    }
+    
+    .rate-sport {
+        font-size: clamp(1.2rem, 5.5vw, 1.4rem);
+    }
+    
+    .rate-price {
+        font-size: clamp(1.6rem, 7vw, 2rem);
+    }
+    
+    .rate-time {
+        font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+        margin: 8px 0;
+    }
+    
+    /* Reviews */
+    .review-card {
+        min-width: 260px;
+        max-width: 280px;
+        padding: 20px 15px;
+    }
+    
+    .review-text {
+        font-size: clamp(0.8rem, 3.2vw, 0.9rem);
+        line-height: 1.5;
+    }
+    
+    .review-stars {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+    
+    .author-name {
+        font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+    }
+    
+    .author-sport {
+        font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+    }
+    
+    /* Location */
+    .location-info {
+        padding: 0 10px;
+    }
+    
+    .location-address h3 {
+        font-size: clamp(1.3rem, 5.5vw, 1.6rem);
+    }
+    
+    .location-address p {
+        font-size: clamp(0.9rem, 3.8vw, 1.1rem);
+    }
+    
+    .detail-item {
+        margin-bottom: 20px;
+        padding: 0 5px;
+    }
+    
+    .contact-info p {
+        font-size: clamp(0.9rem, 3.5vw, 1rem);
+        line-height: 1.6;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 40px 0 20px;
+    }
+    
+    .footer-content {
+        gap: 30px;
+    }
+    
+    .footer-brand h3 {
+        font-size: clamp(1.3rem, 5.5vw, 1.6rem);
+    }
+    
+    .footer-brand p {
+        font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .footer-section h4 {
+        font-size: clamp(1rem, 4.2vw, 1.2rem);
+        margin-bottom: 12px;
+    }
+    
+    .footer-section a {
+        font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+        padding: 6px 0;
+        display: block;
+    }
+    
+    .footer-bottom {
+        gap: 12px;
+        padding-top: 20px;
+    }
+    
+    .footer-bottom p {
+        font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+    }
+    
+    .social-link {
+        font-size: clamp(0.8rem, 3vw, 0.9rem);
+        margin: 0 8px;
     }
 }
 
