@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athlon Sports – India | Premier Multi-Sports Complex in Mulund West</title>
+    <meta name="description" content="Mumbai's premier 30,000 sq ft multi-sports arena in Mulund West. Play cricket, football, tennis, archery & more. Open 6 AM-11 PM daily.">
+    
+    <!-- Performance and SEO optimizations -->
+    <meta name="keywords" content="sports complex mumbai, cricket ground mulund, football field mumbai, tennis courts mulund west, archery mumbai, sports arena mumbai">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="author" content="Athlon Sports India">
+    
+    <!-- Prefetch critical resources -->
+    <link rel="prefetch" href="#sports">
+    <link rel="prefetch" href="#facilities">
+    
+    <!-- Reduce main thread work -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Optimize rendering -->
+    <meta name="theme-color" content="#4A5BF5">
+    <meta name="msapplication-TileColor" content="#4A5BF5">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Critical CSS for instant rendering -->
+    <style>
+        :root{--primary-blue:#4A5BF5;--deep-blue:#3742D8;--light-blue:#6B7BFF;--navy-blue:#2E3AA8;--pure-white:#FFFFFF;--off-white:#F8F9FF;--dark-text:#1A1A1A;--hero-gradient:linear-gradient(135deg,var(--primary-blue) 0%,var(--deep-blue) 50%,var(--navy-blue) 100%);--font-heading:'Bebas Neue',cursive;--font-body:'Inter',sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);line-height:1.6;color:var(--dark-text);overflow-x:hidden;background:var(--pure-white);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        .navbar{position:fixed;top:0;width:100%;background:rgba(74,91,245,0.95);backdrop-filter:blur(10px);z-index:1000;padding:15px 0}
+        .hero{min-height:100vh;background:var(--hero-gradient);position:relative;display:flex;align-items:center;justify-content:center}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        .nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}
+        .logo-text h2{font-family:var(--font-heading);font-size:24px;color:var(--pure-white);letter-spacing:2px}
+        .hero-title{font-family:var(--font-heading);font-size:clamp(2.5rem,8vw,4rem);color:var(--pure-white);text-align:center;margin-bottom:1rem}
+        .btn-primary{background:linear-gradient(45deg,var(--primary-blue) 0%,var(--light-blue) 100%);color:var(--pure-white);border:none;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.3s ease}
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Performance Loading Screen -->
+    <div id="loading-screen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#4A5BF5,#2E3AA8);z-index:9999;display:flex;justify-content:center;align-items:center;color:white;font-family:Inter,sans-serif;">
+        <div style="text-align:center;">
+            <div style="font-size:24px;font-weight:600;margin-bottom:20px;">ATHLON SPORTS</div>
+            <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid white;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto;"></div>
+        </div>
+    </div>
+    <style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-text">
+                    <h2>ATHLON SPORTS</h2>
+                    <span class="nav-location">MULUND WEST</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#sports">Sports</a>
+                <a href="#facilities">Facilities</a>
+                <a href="#rates">Rates</a>
+                <a href="#contact">Contact</a>
+                <button class="btn-primary nav-cta">Book Now</button>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-bg-layer arena-bg"></div>
+            <div class="hero-bg-layer crowd-silhouette"></div>
+            <div class="hero-bg-layer sports-field-elements">
+                <div class="field-marking center-circle"></div>
+                <div class="field-marking goal-post left-goal"></div>
+                <div class="field-marking goal-post right-goal"></div>
+                <div class="field-marking penalty-box left-box"></div>
+                <div class="field-marking penalty-box right-box"></div>
+                <div class="field-marking cricket-pitch"></div>
+                <div class="field-marking tennis-net"></div>
+            </div>
+            <div class="hero-bg-layer sports-silhouettes">
+                <div class="sport-silhouette cricket">
+                    <div class="sport-icon-simple">🏏</div>
+                </div>
+                <div class="sport-silhouette football">
+                    <div class="sport-icon-simple">⚽</div>
+                </div>
+                <div class="sport-silhouette tennis">
+                    <div class="sport-icon-simple">🎾</div>
+                </div>
+                
+                <!-- Additional Sports Illustrations -->
+                <div class="sport-illustration trophy-float">
+                    <div class="illustration-icon">🏆</div>
+                </div>
+                <div class="sport-illustration medal-bounce">
+                    <div class="illustration-icon">🥇</div>
+                </div>
+                <div class="sport-illustration whistle-swing">
+                    <div class="illustration-icon">📯</div>
+                </div>
+                <div class="sport-illustration target-pulse">
+                    <div class="illustration-icon">🎯</div>
+                </div>
+                <div class="sport-illustration shoes-run">
+                    <div class="illustration-icon">👟</div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Sports Elements -->
+            
+            <!-- Premium Particles -->
+            <div class="hero-particles"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-line">Mulund's 30,000 sq ft</span>
+                    <span class="title-line highlight">Landmark for Multi-Sport Action</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Play Cricket, Football, Tennis & More in a World-Class Arena
+                </p>
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large">Book a Slot</button>
+                    <button class="btn-secondary btn-large">Explore Sports</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">30,000</span>
+                <span class="stat-label">SQ FT ARENA</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">6AM-11PM</span>
+                <span class="stat-label">DAILY HOURS</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">4+</span>
+                <span class="stat-label">SPORTS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">About the Venue</h2>
+                <p class="section-subtitle">Mumbai's premier multi-sports destination</p>
+                <div class="title-decoration">
+                    <div class="decoration-line"></div>
+                    <div class="decoration-dot"></div>
+                    <div class="decoration-line"></div>
+                </div>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text animate-slide-left">
+                    <div class="text-highlight-box">
+                        <h3>World-Class 30,000 sq ft Arena</h3>
+                        <div class="highlight-accent"></div>
+                    </div>
+                    <p class="about-description">Experience sports like never before in Mumbai's most advanced multi-sports complex. Our state-of-the-art 30,000 square feet arena features international-grade surfaces and facilities that cater to athletes of all levels.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature-item animate-feature" data-delay="0">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon">🏟️</div>
+                                <div class="icon-pulse"></div>
+                            </div>
+                            <div class="feature-text">
+                                <h4>International-Grade Surfaces</h4>
+                                <p>Professional quality turf and courts for optimal performance</p>
+                                <div class="feature-progress">
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </div>
+                            <div class="feature-number">01</div>
+                        </div>
+                        <div class="feature-item animate-feature" data-delay="200">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon">⏰</div>
+                                <div class="icon-pulse"></div>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Extended Hours</h4>
+                                <p>Open daily from 6:00 AM to 11:00 PM for your convenience</p>
+                                <div class="feature-progress">
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </div>
+                            <div class="feature-number">02</div>
+                        </div>
+                        <div class="feature-item animate-feature" data-delay="400">
+                            <div class="feature-icon-wrapper">
+                                <div class="feature-icon">🎯</div>
+                                <div class="icon-pulse"></div>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Multi-Sport Facility</h4>
+                                <p>Cricket, Football, Tennis and more under one roof</p>
+                                <div class="feature-progress">
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </div>
+                            <div class="feature-number">03</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-visual animate-slide-right">
+                    <div class="arena-showcase">
+                        <div class="arena-illustration">
+                            <div class="arena-field"></div>
+                            <div class="arena-stands"></div>
+                            <div class="arena-lights">
+                                <div class="light light-1"></div>
+                                <div class="light light-2"></div>
+                                <div class="light light-3"></div>
+                                <div class="light light-4"></div>
+                            </div>
+                            <div class="arena-players">
+                                <div class="player player-1"></div>
+                                <div class="player player-2"></div>
+                                <div class="player player-3"></div>
+                            </div>
+                        </div>
+                        <div class="stats-overlay">
+                            <div class="stat-bubble stat-1">
+                                <span class="stat-value">30K</span>
+                                <span class="stat-label">SQ FT</span>
+                            </div>
+                            <div class="stat-bubble stat-2">
+                                <span class="stat-value">17H</span>
+                                <span class="stat-label">DAILY</span>
+                            </div>
+                            <div class="stat-bubble stat-3">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">SPORTS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Background Elements -->
+            <div class="about-bg-elements">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sports Section -->
+    <section id="sports" class="sports">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2 class="section-title">Sports You Can Play</h2>
+                <p class="section-subtitle">Choose your game, unleash your potential</p>
+                <div class="title-decoration">
+                    <div class="decoration-line"></div>
+                    <div class="decoration-dot"></div>
+                    <div class="decoration-line"></div>
+                </div>
+            </div>
+            
+            <!-- Premium Sports Showcase -->
+            <div class="sports-showcase">
+                <div class="showcase-controls">
+                    <button class="showcase-btn active" data-sport="cricket">
+                        <span class="btn-icon">🏏</span>
+                        <span>Cricket</span>
+                    </button>
+                    <button class="showcase-btn" data-sport="football">
+                        <span class="btn-icon">⚽</span>
+                        <span>Football</span>
+                    </button>
+                    <button class="showcase-btn" data-sport="tennis">
+                        <span class="btn-icon">🎾</span>
+                        <span>Tennis</span>
+                    </button>
+                </div>
+                
+                <div class="showcase-content">
+                    <div class="showcase-panel active" id="cricket-panel">
+                        <div class="panel-visual">
+                            <div class="sport-3d-scene">
+                                <div class="cricket-field">
+                                    <div class="wickets"></div>
+                                    <div class="pitch-line"></div>
+                                    <div class="boundary-rope"></div>
+                                    <div class="animated-ball cricket-ball"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <h3>Cricket Excellence</h3>
+                            <p>Experience cricket at its finest with our international-standard turf wickets and professional facilities.</p>
+                            <div class="sport-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="22">0</span>
+                                    <span class="stat-label">Yard Pitch</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="6">0</span>
+                                    <span class="stat-label">Practice Nets</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="15">0</span>
+                                    <span class="stat-label">Hours Daily</span>
+                                </div>
+                            </div>
+                            <div class="sport-features-premium">
+                                <div class="feature-tag">International Grade</div>
+                                <div class="feature-tag">Match Quality</div>
+                                <div class="feature-tag">Practice Facilities</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-panel" id="football-panel">
+                        <div class="panel-visual">
+                            <div class="sport-3d-scene">
+                                <div class="football-field">
+                                    <div class="goal-posts"></div>
+                                    <div class="center-circle"></div>
+                                    <div class="penalty-box"></div>
+                                    <div class="animated-ball football-ball"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <h3>Football Paradise</h3>
+                            <p>FIFA-standard artificial grass provides the perfect surface for professional football experience.</p>
+                            <div class="sport-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="100">0</span>
+                                    <span class="stat-label">x 60 Yards</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="11">0</span>
+                                    <span class="stat-label">vs 11 Play</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="17">0</span>
+                                    <span class="stat-label">Hours Daily</span>
+                                </div>
+                            </div>
+                            <div class="sport-features-premium">
+                                <div class="feature-tag">FIFA Standard</div>
+                                <div class="feature-tag">All Weather</div>
+                                <div class="feature-tag">Youth Friendly</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="showcase-panel" id="tennis-panel">
+                        <div class="panel-visual">
+                            <div class="sport-3d-scene">
+                                <div class="tennis-court">
+                                    <div class="court-net"></div>
+                                    <div class="service-boxes"></div>
+                                    <div class="baseline"></div>
+                                    <div class="animated-ball tennis-ball"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <h3>Tennis Perfection</h3>
+                            <p>Premium synthetic courts with professional lighting for exceptional day and night play experience.</p>
+                            <div class="sport-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="4">0</span>
+                                    <span class="stat-label">Pro Courts</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="24">0</span>
+                                    <span class="stat-label">LED Lights</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" data-target="17">0</span>
+                                    <span class="stat-label">Hours Daily</span>
+                                </div>
+                            </div>
+                            <div class="sport-features-premium">
+                                <div class="feature-tag">Synthetic Surface</div>
+                                <div class="feature-tag">Night Play</div>
+                                <div class="feature-tag">Equipment Rental</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sports Cards Grid -->
+            <div class="sports-grid-premium">
+                <div class="sport-card-3d animate-sport-card" data-delay="0" data-sport="cricket">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-glow"></div>
+                            <div class="sport-icon-large">🏏</div>
+                            <h4>Cricket</h4>
+                            <p>Professional Experience</p>
+                            <div class="card-price">₹2,000/hr</div>
+                        </div>
+                        <div class="card-back">
+                            <h4>Cricket Details</h4>
+                            <ul>
+                                <li>International-grade turf</li>
+                                <li>Complete ground marking</li>
+                                <li>Practice net facilities</li>
+                                <li>Equipment available</li>
+                            </ul>
+                            <button class="book-now-btn">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="card-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+                
+                <div class="sport-card-3d animate-sport-card" data-delay="200" data-sport="football">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-glow"></div>
+                            <div class="sport-icon-large">⚽</div>
+                            <h4>Football</h4>
+                            <p>FIFA Standard Field</p>
+                            <div class="card-price">₹1,500/hr</div>
+                        </div>
+                        <div class="card-back">
+                            <h4>Football Details</h4>
+                            <ul>
+                                <li>FIFA-approved surface</li>
+                                <li>Professional goal posts</li>
+                                <li>All-weather playability</li>
+                                <li>Youth programs available</li>
+                            </ul>
+                            <button class="book-now-btn">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="card-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+                
+                <div class="sport-card-3d animate-sport-card" data-delay="400" data-sport="tennis">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="card-glow"></div>
+                            <div class="sport-icon-large">🎾</div>
+                            <h4>Tennis</h4>
+                            <p>Synthetic Courts</p>
+                            <div class="card-price">₹800/hr</div>
+                        </div>
+                        <div class="card-back">
+                            <h4>Tennis Details</h4>
+                            <ul>
+                                <li>Premium synthetic surface</li>
+                                <li>Professional net setup</li>
+                                <li>LED floodlighting</li>
+                                <li>Racquet rental service</li>
+                            </ul>
+                            <button class="book-now-btn">Book Now</button>
+                        </div>
+                    </div>
+                    <div class="card-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Background Effects -->
+        <div class="sports-bg-effects">
+            <div class="floating-equipment">
+                <div class="equipment-item trophy">🏆</div>
+                <div class="equipment-item medal">🥇</div>
+                <div class="equipment-item whistle">📯</div>
+            </div>
+            <div class="energy-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+            </div>
+            <div class="sport-particles">
+                <div class="particle-stream stream-1"></div>
+                <div class="particle-stream stream-2"></div>
+                <div class="particle-stream stream-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities" class="facilities">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Facilities & Amenities</h2>
+                <p class="section-subtitle">Everything you need for the perfect sports experience</p>
+            </div>
+            
+            <div class="facilities-grid">
+                <div class="facility-item">
+                    <div class="facility-icon parking-icon"></div>
+                    <h3>Ample Parking</h3>
+                    <p>Secure parking space for all vehicles with easy access to the arena</p>
+                </div>
+                
+                <div class="facility-item">
+                    <div class="facility-icon washroom-icon"></div>
+                    <h3>Clean Washrooms</h3>
+                    <p>Well-maintained, hygienic changing rooms and washroom facilities</p>
+                </div>
+                
+                <div class="facility-item">
+                    <div class="facility-icon water-icon"></div>
+                    <h3>Water Coolers</h3>
+                    <p>Fresh drinking water stations throughout the complex</p>
+                </div>
+                
+                <div class="facility-item">
+                    <div class="facility-icon accessible-icon"></div>
+                    <h3>Accessible Design</h3>
+                    <p>Wheelchair accessible facilities ensuring sports for everyone</p>
+                </div>
+                
+                <div class="facility-item">
+                    <div class="facility-icon lighting-icon"></div>
+                    <h3>LED Lighting</h3>
+                    <p>Professional-grade LED floodlights for night games</p>
+                </div>
+                
+                <div class="facility-item">
+                    <div class="facility-icon seating-icon"></div>
+                    <h3>Spectator Seating</h3>
+                    <p>Comfortable seating arrangement for friends and family</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rates Section -->
+    <section id="rates" class="rates">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Booking & Rates</h2>
+                <p class="section-subtitle">Transparent pricing for all your sporting needs</p>
+            </div>
+            
+            <div class="rates-grid">
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="rate-sport">Cricket</div>
+                        <div class="rate-icon cricket-rate-icon"></div>
+                    </div>
+                    <div class="rate-price">₹2,000<span>/hour</span></div>
+                    <div class="rate-features">
+                        <div class="rate-time">Morning Slots: 6 AM - 12 PM</div>
+                        <div class="rate-time">Evening Slots: 4 PM - 11 PM</div>
+                        <ul>
+                            <li>Professional turf wicket</li>
+                            <li>Complete ground marking</li>
+                            <li>Basic equipment included</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary">Book Cricket</button>
+                </div>
+                
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="rate-sport">Football</div>
+                        <div class="rate-icon football-rate-icon"></div>
+                    </div>
+                    <div class="rate-price">₹1,500<span>/hour</span></div>
+                    <div class="rate-features">
+                        <div class="rate-time">Morning Slots: 6 AM - 12 PM</div>
+                        <div class="rate-time">Evening Slots: 4 PM - 11 PM</div>
+                        <ul>
+                            <li>FIFA standard artificial grass</li>
+                            <li>Goal posts & corner flags</li>
+                            <li>Floodlight facilities</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary">Book Football</button>
+                </div>
+                
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="rate-sport">Tennis</div>
+                        <div class="rate-icon tennis-rate-icon"></div>
+                    </div>
+                    <div class="rate-price">₹800<span>/hour</span></div>
+                    <div class="rate-features">
+                        <div class="rate-time">Morning Slots: 6 AM - 12 PM</div>
+                        <div class="rate-time">Evening Slots: 4 PM - 11 PM</div>
+                        <ul>
+                            <li>Synthetic tennis courts</li>
+                            <li>Professional net setup</li>
+                            <li>Racquet rental available</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary">Book Tennis</button>
+                </div>
+                
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="rate-sport">Archery</div>
+                        <div class="rate-icon archery-rate-icon"></div>
+                    </div>
+                    <div class="rate-price">₹500<span>/hour</span></div>
+                    <div class="rate-features">
+                        <div class="rate-time">All Day: 6 AM - 11 PM</div>
+                        <ul>
+                            <li>Professional archery range</li>
+                            <li>Safety equipment provided</li>
+                            <li>Beginner coaching available</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary">Book Archery</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Players Say</h2>
+                <p class="section-subtitle">Trusted by Mumbai's sports community</p>
+            </div>
+            
+            <div class="reviews-carousel">
+                <div class="review-track">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Amazing facilities! The cricket turf is of international quality and the staff is incredibly helpful and friendly. Highly recommended for serious cricket practice."</p>
+                        <div class="review-author">
+                            <span class="author-name">Rahul Sharma</span>
+                            <span class="author-sport">Cricket Enthusiast</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Best football ground in Mulund! Well-maintained turf, proper lighting for night games, and the booking process is smooth. Our team plays here regularly."</p>
+                        <div class="review-author">
+                            <span class="author-name">Priya Patel</span>
+                            <span class="author-sport">Football Team Captain</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Excellent tennis courts with great lighting. The synthetic surface is perfect for all weather conditions. Staff maintains the facility very well."</p>
+                        <div class="review-author">
+                            <span class="author-name">Amit Joshi</span>
+                            <span class="author-sport">Tennis Player</span>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Great place for archery training! Safety equipment is provided and the instructors are knowledgeable. Perfect for beginners and experienced archers alike."</p>
+                        <div class="review-author">
+                            <span class="author-name">Sneha Mehta</span>
+                            <span class="author-sport">Archery Student</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn">‹</button>
+                    <button class="carousel-btn next-btn">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="contact" class="location">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How to Reach</h2>
+                <p class="section-subtitle">Located in the heart of Mulund West</p>
+            </div>
+            
+            <div class="location-content">
+                <div class="location-info">
+                    <div class="location-address">
+                        <h3>Athlon Sports – India</h3>
+                        <p>Murar Road, Gate No. 3<br>Mulund West, Mumbai 400080<br>Maharashtra, India</p>
+                    </div>
+                    
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">📍</div>
+                            <div class="detail-text">
+                                <h4>Easy to Find</h4>
+                                <p>Located near Murar Road Gate No. 3, easily accessible by local transport</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">🚗</div>
+                            <div class="detail-text">
+                                <h4>Parking Available</h4>
+                                <p>Ample parking space for cars and two-wheelers</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">🚌</div>
+                            <div class="detail-text">
+                                <h4>Public Transport</h4>
+                                <p>Well-connected by buses and auto-rickshaws from Mulund Station</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h4>Contact Us</h4>
+                        <p>📞 +91 98765 43210<br>📧 info@athlonsports.in<br>🕒 6:00 AM - 11:00 PM (Daily)</p>
+                        <button class="btn-primary">Get Directions</button>
+                    </div>
+                </div>
+                
+                <div class="location-map">
+                    <div class="map-placeholder">
+                        <div class="map-marker"></div>
+                        <div class="map-label">Athlon Sports<br>Mulund West</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>ATHLON SPORTS</h3>
+                    <p>Mumbai's premier multi-sports destination</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Sports</h4>
+                        <a href="#sports">Cricket</a>
+                        <a href="#sports">Football</a>
+                        <a href="#sports">Tennis</a>
+                        <a href="#sports">Archery</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Facilities</h4>
+                        <a href="#facilities">Parking</a>
+                        <a href="#facilities">Washrooms</a>
+                        <a href="#facilities">Water Coolers</a>
+                        <a href="#facilities">Lighting</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <a href="#contact">Location</a>
+                        <a href="#rates">Booking</a>
+                        <a href="tel:+919876543210">Call Us</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Athlon Sports – India. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link">Facebook</a>
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script loading optimized above -->
+</body>
+</html>
