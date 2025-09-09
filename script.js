@@ -1,10 +1,149 @@
 // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // Global variables
 let currentReviewIndex = 0;
 const reviewCards = document.querySelectorAll('.review-card');
 const totalReviews = reviewCards.length;
+
+// Booking Modal Functions
+function openBookingModal(preselectedSport = '') {
+    const modal = document.getElementById('bookingModal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Pre-select sport if provided
+    if (preselectedSport) {
+        const sportSelect = document.getElementById('sport-select');
+        sportSelect.value = preselectedSport;
+        updateBookingSummary();
+    }
+    
+    // Set minimum date to today
+    const dateInput = document.getElementById('booking-date');
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+}
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Reset form
+    document.querySelector('.booking-form').reset();
+    updateBookingSummary();
+}
+
+function updateBookingSummary() {
+    const sportSelect = document.getElementById('sport-select');
+    const dateInput = document.getElementById('booking-date');
+    const timeSelect = document.getElementById('time-slot');
+    const durationSelect = document.getElementById('duration');
+    
+    const summaryResponse = document.getElementById('summary-sport');
+    const summaryDateTime = document.getElementById('summary-datetime');
+    const summaryTotal = document.getElementById('summary-total');
+    
+    // Update sport
+    const selectedOption = sportSelect.selectedOptions[0];
+    if (selectedOption && selectedOption.value) {
+        summaryResponse.textContent = selectedOption.textContent.split(' - ')[0];
+    } else {
+        summaryResponse.textContent = '-';
+    }
+    
+    // Update date & time
+    if (dateInput.value && timeSelect.value) {
+        const date = new Date(dateInput.value);
+        const dateStr = date.toLocaleDateString('en-IN', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+        summaryDateTime.textContent = `${dateStr}, ${timeSelect.value}`;
+    } else {
+        summaryDateTime.textContent = '-';
+    }
+    
+    // Update total
+    if (selectedOption && selectedOption.dataset.price && durationSelect.value) {
+        const price = parseInt(selectedOption.dataset.price);
+        const duration = parseInt(durationSelect.value);
+        const total = price * duration;
+        summaryTotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+    } else {
+        summaryTotal.textContent = '₹0';
+    }
+}
+
+function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function openWhatsApp() {
+    const phoneNumber = '919876543210'; // Replace with actual WhatsApp number
+    const message = encodeURIComponent(
+        'Hi! I would like to book a slot at Athlon Sports. Please help me with the availability and booking process.'
+    );
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+function openDirections() {
+    const address = encodeURIComponent('Athlon Sports, Murar Road, Gate No. 3, Mulund West, Mumbai 400080');
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${address}`;
+    window.open(googleMapsUrl, '_blank');
+}
+
+function submitBookingForm(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const sportSelect = document.getElementById('sport-select');
+    const selectedOption = sportSelect.selectedOptions[0];
+    
+    if (!selectedOption || !selectedOption.value) {
+        alert('Please select a sport');
+        return;
+    }
+    
+    const bookingDetails = {
+        sport: selectedOption.textContent.split(' - ')[0],
+        date: formData.get('date'),
+        time: formData.get('time'),
+        duration: formData.get('duration'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        price: selectedOption.dataset.price,
+        total: parseInt(selectedOption.dataset.price) * parseInt(formData.get('duration'))
+    };
+    
+    const phoneNumber = '919876543210'; // Replace with actual WhatsApp number
+    const message = encodeURIComponent(
+        `🏟️ *ATHLON SPORTS BOOKING REQUEST*\n\n` +
+        `👤 *Name:* ${bookingDetails.name}\n` +
+        `📱 *Phone:* ${bookingDetails.phone}\n\n` +
+        `🏆 *Sport:* ${bookingDetails.sport}\n` +
+        `📅 *Date:* ${new Date(bookingDetails.date).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}\n` +
+        `⏰ *Time:* ${bookingDetails.time}\n` +
+        `⏳ *Duration:* ${bookingDetails.duration} hour(s)\n\n` +
+        `💰 *Total Amount:* ₹${bookingDetails.total.toLocaleString('en-IN')}\n\n` +
+        `Please confirm availability and provide booking instructions. Thank you!`
+    );
+    
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+    
+    // Close modal after sending
+    closeBookingModal();
+}
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeStatCounters();
     createAdvancedParticleSystem();
     initializeMobileFeatures();
+    initializeBookingSystem();
     
     // Mark page as loaded
     document.body.classList.add('loaded');
@@ -114,6 +254,7 @@ function initializeAnimations() {
     initializeParticleEffects();
     initializeNavigationAnimations();
     createHeroBubbleSystem();
+    initializeEnhancedSportsAnimations();
 
     // Parallax background animation
     gsap.to('.arena-bg', {
@@ -443,10 +584,21 @@ function initializeNavigation() {
     });
 
     // Mobile menu toggle
-    if (mobileToggle) {
+    if (mobileToggle && navLinksContainer) {
         mobileToggle.addEventListener('click', function() {
-            navLinksContainer.classList.toggle('mobile-open');
             this.classList.toggle('active');
+            navLinksContainer.classList.toggle('mobile-menu');
+            navLinksContainer.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+        
+        // Close menu when clicking on nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileToggle.classList.remove('active');
+                navLinksContainer.classList.remove('mobile-menu', 'active');
+                document.body.classList.remove('menu-open');
+            });
         });
     }
 
@@ -581,21 +733,19 @@ function initializeScrollEffects() {
         }
     });
 
-    // Facilities animation
-    gsap.set('.facility-item', { opacity: 0, scale: 0.8 });
-
-    ScrollTrigger.create({
-        trigger: '.facilities-grid',
-        start: "top 70%",
-        onEnter: () => {
-            gsap.to('.facility-item', {
-                opacity: 1,
-                scale: 1,
-                duration: 0.6,
-                stagger: 0.1,
-                ease: "back.out(1.7)"
-            });
-        }
+    // Enhanced Facilities animation
+    const facilityItems = document.querySelectorAll('.animate-facility');
+    facilityItems.forEach((item) => {
+        const delay = parseInt(item.dataset.delay) || 0;
+        ScrollTrigger.create({
+            trigger: item,
+            start: "top 85%",
+            onEnter: () => {
+                setTimeout(() => {
+                    item.classList.add('animate');
+                }, delay);
+            }
+        });
     });
 
     // Rates cards flip animation
@@ -1162,10 +1312,22 @@ function initializeAdvancedSportsEffects() {
         });
         
         // Click to flip
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function(e) {
+            // Don't flip if clicking on buttons
+            if (e.target.matches('button') || e.target.closest('button')) {
+                return;
+            }
+            
             const inner = card.querySelector('.card-inner');
-            inner.style.transform = inner.style.transform === 'rotateY(180deg)' ? 
-                'rotateY(0deg)' : 'rotateY(180deg)';
+            const isFlipped = card.classList.contains('flipped');
+            
+            if (isFlipped) {
+                card.classList.remove('flipped');
+                inner.style.transform = 'rotateY(0deg)';
+            } else {
+                card.classList.add('flipped');
+                inner.style.transform = 'rotateY(180deg)';
+            }
         });
     });
 }
@@ -1260,40 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Mobile Features and Touch Support
 function initializeMobileFeatures() {
-    // Mobile Navigation Toggle
-    const mobileToggle = document.querySelector('.mobile-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (mobileToggle && navLinks) {
-        // Clone nav links for mobile menu
-        const mobileMenu = navLinks.cloneNode(true);
-        mobileMenu.classList.add('mobile-menu');
-        document.body.appendChild(mobileMenu);
-        
-        mobileToggle.addEventListener('click', function() {
-            mobileToggle.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        });
-        
-        // Close menu when clicking on links
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function() {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            }
-        });
-    }
+    // Mobile menu functionality is handled in initializeNavigation()
     
     // Touch-friendly interactions for cards
     const cards = document.querySelectorAll('.sport-card-3d, .rate-card, .facility-item');
@@ -1380,6 +1509,417 @@ function initializeMobileFeatures() {
     }
 }
 
+// Initialize Enhanced Sports Animations
+function initializeEnhancedSportsAnimations() {
+    // Create dynamic sports ball interactions
+    createDynamicSportsBalls();
+    
+    // Initialize celebration triggers
+    initializeCelebrationTriggers();
+    
+    // Add interactive sports equipment
+    addInteractiveSportsEquipment();
+    
+    // Create stadium atmosphere effects
+    createStadiumAtmosphere();
+}
+
+// Create Dynamic Sports Balls
+function createDynamicSportsBalls() {
+    const sportsContainer = document.querySelector('.sports-balls');
+    if (!sportsContainer) return;
+    
+    // Add mouse following effect for balls
+    let mouseX = 0, mouseY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        const heroRect = document.querySelector('.hero').getBoundingClientRect();
+        mouseX = (e.clientX - heroRect.left) / heroRect.width;
+        mouseY = (e.clientY - heroRect.top) / heroRect.height;
+        
+        // Subtle ball reactions to mouse movement
+        const balls = document.querySelectorAll('.ball');
+        balls.forEach((ball, index) => {
+            const delay = index * 0.1;
+            gsap.to(ball, {
+                x: mouseX * 20 - 10,
+                y: mouseY * 20 - 10,
+                duration: 1 + delay,
+                ease: "power2.out"
+            });
+        });
+    });
+    
+    // Add ball collision effects
+    const balls = document.querySelectorAll('.ball');
+    balls.forEach(ball => {
+        ball.addEventListener('mouseenter', function() {
+            // Create bounce effect
+            gsap.to(ball, {
+                scale: 1.3,
+                rotation: 360,
+                duration: 0.6,
+                ease: "back.out(1.7)",
+                onComplete: () => {
+                    gsap.to(ball, {
+                        scale: 1,
+                        duration: 0.3
+                    });
+                }
+            });
+            
+            // Create ripple effect
+            createBallRipple(ball);
+        });
+    });
+}
+
+// Create Ball Ripple Effect
+function createBallRipple(ball) {
+    const ripple = document.createElement('div');
+    ripple.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10;
+    `;
+    
+    ball.appendChild(ripple);
+    
+    gsap.fromTo(ripple, 
+        { scale: 0, opacity: 1 },
+        {
+            scale: 3,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            onComplete: () => ripple.remove()
+        }
+    );
+}
+
+// Initialize Celebration Triggers
+function initializeCelebrationTriggers() {
+    const celebrations = document.querySelectorAll('.action-element');
+    
+    // Trigger celebrations based on scroll or interactions
+    ScrollTrigger.create({
+        trigger: '.hero',
+        start: "top center",
+        end: "bottom center",
+        onUpdate: self => {
+            const progress = self.progress;
+            
+            // Trigger different celebrations based on scroll progress
+            if (progress > 0.3 && progress < 0.4) {
+                triggerCelebration('goal-celebration');
+            } else if (progress > 0.6 && progress < 0.7) {
+                triggerCelebration('wicket-celebration');
+            } else if (progress > 0.9) {
+                triggerCelebration('ace-celebration');
+            }
+        }
+    });
+    
+    // Random celebration triggers
+    setInterval(() => {
+        const randomCelebration = ['goal-celebration', 'wicket-celebration', 'ace-celebration'];
+        const celebration = randomCelebration[Math.floor(Math.random() * randomCelebration.length)];
+        triggerCelebration(celebration);
+    }, 12000); // Every 12 seconds
+}
+
+// Trigger Celebration Function
+function triggerCelebration(celebrationType) {
+    const celebration = document.querySelector(`.${celebrationType}`);
+    if (!celebration) return;
+    
+    // Show celebration with animation
+    gsap.timeline()
+        .set(celebration, { opacity: 1, scale: 0 })
+        .to(celebration, {
+            scale: 1,
+            duration: 0.4,
+            ease: "back.out(1.7)"
+        })
+        .to(celebration.querySelector('.celebration-icon'), {
+            rotation: 360,
+            duration: 0.6,
+            ease: "power2.inOut"
+        }, 0.2)
+        .to(celebration, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.3,
+            delay: 1.5,
+            ease: "power2.in"
+        });
+    
+    // Create celebration particles
+    createCelebrationParticles(celebration);
+}
+
+// Create Celebration Particles
+function createCelebrationParticles(celebration) {
+    const particleCount = 8;
+    const celebrationRect = celebration.getBoundingClientRect();
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.style.cssText = `
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            left: ${celebrationRect.left + celebrationRect.width / 2}px;
+            top: ${celebrationRect.top + celebrationRect.height / 2}px;
+        `;
+        
+        document.body.appendChild(particle);
+        
+        const angle = (i / particleCount) * Math.PI * 2;
+        const distance = 50 + Math.random() * 50;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        
+        gsap.to(particle, {
+            x: x,
+            y: y,
+            scale: 0,
+            duration: 1,
+            ease: "power2.out",
+            onComplete: () => particle.remove()
+        });
+    }
+}
+
+// Add Interactive Sports Equipment
+function addInteractiveSportsEquipment() {
+    const equipmentItems = document.querySelectorAll('.equipment-item');
+    
+    equipmentItems.forEach((item, index) => {
+        // Add hover effects
+        item.addEventListener('mouseenter', function() {
+            gsap.to(item, {
+                scale: 1.2,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            
+            // Show trail effect
+            const trail = item.querySelector('.equipment-trail');
+            if (trail) {
+                gsap.to(trail, {
+                    opacity: 1,
+                    duration: 0.3
+                });
+            }
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            gsap.to(item, {
+                scale: 1,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            
+            // Hide trail effect
+            const trail = item.querySelector('.equipment-trail');
+            if (trail) {
+                gsap.to(trail, {
+                    opacity: 0,
+                    duration: 0.3
+                });
+            }
+        });
+        
+        // Add click effects
+        item.addEventListener('click', function() {
+            // Create equipment-specific animation
+            if (item.classList.contains('cricket-bat')) {
+                createCricketSwingEffect(item);
+            } else if (item.classList.contains('football-boot')) {
+                createFootballKickEffect(item);
+            } else if (item.classList.contains('tennis-racket')) {
+                createTennisServeEffect(item);
+            } else if (item.classList.contains('archery-bow')) {
+                createArcheryShootEffect(item);
+            }
+        });
+    });
+}
+
+// Create Equipment-Specific Effects
+function createCricketSwingEffect(item) {
+    const icon = item.querySelector('.equipment-icon');
+    gsap.timeline()
+        .to(item, { rotation: -30, duration: 0.2 })
+        .to(item, { rotation: 45, duration: 0.3, ease: "power2.out" })
+        .to(item, { rotation: 0, duration: 0.2 });
+    
+    // Create ball trajectory
+    createSportsTrajectory(item, '🏏');
+}
+
+function createFootballKickEffect(item) {
+    gsap.timeline()
+        .to(item, { y: -20, rotation: -15, duration: 0.2 })
+        .to(item, { y: 10, rotation: 25, duration: 0.3 })
+        .to(item, { y: 0, rotation: 0, duration: 0.2 });
+    
+    createSportsTrajectory(item, '⚽');
+}
+
+function createTennisServeEffect(item) {
+    gsap.timeline()
+        .to(item, { rotation: -45, y: -15, duration: 0.2 })
+        .to(item, { rotation: 30, y: -5, duration: 0.3 })
+        .to(item, { rotation: 0, y: 0, duration: 0.2 });
+    
+    createSportsTrajectory(item, '🎾');
+}
+
+function createArcheryShootEffect(item) {
+    gsap.timeline()
+        .to(item, { scale: 1.3, duration: 0.3 })
+        .to(item, { scale: 1, duration: 0.2 })
+        .set(item, { transformOrigin: "center center" });
+    
+    createSportsTrajectory(item, '🏹');
+}
+
+// Create Sports Trajectory Effect
+function createSportsTrajectory(originElement, emoji) {
+    const trajectory = document.createElement('div');
+    trajectory.textContent = emoji;
+    trajectory.style.cssText = `
+        position: absolute;
+        font-size: 1.5rem;
+        pointer-events: none;
+        z-index: 100;
+    `;
+    
+    const rect = originElement.getBoundingClientRect();
+    const heroRect = document.querySelector('.hero').getBoundingClientRect();
+    
+    trajectory.style.left = (rect.left - heroRect.left) + 'px';
+    trajectory.style.top = (rect.top - heroRect.top) + 'px';
+    
+    document.querySelector('.hero').appendChild(trajectory);
+    
+    // Animate trajectory
+    const endX = Math.random() * 200 + 100;
+    const endY = -(Math.random() * 100 + 50);
+    
+    gsap.to(trajectory, {
+        x: endX,
+        y: endY,
+        rotation: 360,
+        scale: 0.5,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power2.out",
+        onComplete: () => trajectory.remove()
+    });
+}
+
+// Create Stadium Atmosphere
+function createStadiumAtmosphere() {
+    // Add crowd noise visualization
+    const crowdCheer = document.querySelector('.crowd-cheer');
+    if (crowdCheer) {
+        setInterval(() => {
+            gsap.to(crowdCheer, {
+                scale: 1.5,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        }, 8000);
+    }
+    
+    // Dynamic stadium lights
+    const lightBeams = document.querySelectorAll('.light-beam');
+    lightBeams.forEach((beam, index) => {
+        setInterval(() => {
+            gsap.to(beam, {
+                opacity: Math.random() * 0.8 + 0.2,
+                duration: 0.5,
+                ease: "power2.inOut"
+            });
+        }, 2000 + (index * 500));
+    });
+    
+    // Interactive scoreboard
+    const scoreBoard = document.querySelector('.score-board');
+    if (scoreBoard) {
+        scoreBoard.addEventListener('mouseenter', function() {
+            gsap.to(scoreBoard, {
+                scale: 1.1,
+                boxShadow: '0 0 30px rgba(74, 91, 245, 1)',
+                duration: 0.3
+            });
+        });
+        
+        scoreBoard.addEventListener('mouseleave', function() {
+            gsap.to(scoreBoard, {
+                scale: 1,
+                boxShadow: '0 0 10px rgba(74, 91, 245, 0.5)',
+                duration: 0.3
+            });
+        });
+    }
+}
+
+// Initialize Booking System
+function initializeBookingSystem() {
+    const bookingForm = document.querySelector('.booking-form');
+    const sportSelect = document.getElementById('sport-select');
+    const dateInput = document.getElementById('booking-date');
+    const timeSelect = document.getElementById('time-slot');
+    const durationSelect = document.getElementById('duration');
+    
+    if (!bookingForm) return;
+    
+    // Add event listeners for form updates
+    [sportSelect, dateInput, timeSelect, durationSelect].forEach(element => {
+        if (element) {
+            element.addEventListener('change', updateBookingSummary);
+        }
+    });
+    
+    // Handle form submission
+    bookingForm.addEventListener('submit', submitBookingForm);
+    
+    // Set today as minimum date
+    if (dateInput) {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+    }
+    
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('bookingModal');
+            if (modal && modal.style.display === 'flex') {
+                closeBookingModal();
+            }
+        }
+    });
+}
+
 // Export functions for potential external use
 window.AthlonSports = {
     nextSlide: () => document.querySelector('.next-btn')?.click(),
@@ -1397,5 +1937,8 @@ window.AthlonSports = {
     switchSport: (sportType) => {
         const btn = document.querySelector(`[data-sport="${sportType}"]`);
         if (btn) btn.click();
-    }
+    },
+    openBookingModal: openBookingModal,
+    closeBookingModal: closeBookingModal,
+    openWhatsApp: openWhatsApp
 };
